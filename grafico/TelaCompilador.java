@@ -1,6 +1,8 @@
 package compiladores.grafico;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,18 +14,24 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
+
+import compiladores.analisador.lexico.AnalisadorLexico;
+import compiladores.util.TableModel;
 
 public class TelaCompilador extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
 	private JTable table;
+	private JTextArea textArea;
+	private TableModel model;
 
 	public TelaCompilador() {
 		
 		setTitle("Compilador");
 		setSize(650, 675);
+		
+		model = new TableModel();
 		
 		telaGraficaMontar();
 		
@@ -43,6 +51,13 @@ public class TelaCompilador extends JFrame {
 		
 		JButton btnAbrir = new JButton("Abrir");
 		menuBar.add(btnAbrir);
+		btnAbrir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				model = new TableModel(new AnalisadorLexico(textArea.getText().trim()).AnaliseLexica());
+				table.setModel(model);
+			}
+		});
 		
 		JButton btnExecutar = new JButton("Executar");
 		menuBar.add(btnExecutar);
@@ -55,20 +70,19 @@ public class TelaCompilador extends JFrame {
 		splitPane.setResizeWeight(0.5);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		contentPane.add(splitPane);
-		
-		JTextArea textArea = new JTextArea();
+				
+		textArea = new JTextArea();
 		splitPane.setLeftComponent(textArea);
+		
+		JScrollPane msgScroller = new JScrollPane();
+		msgScroller.setViewportView(textArea);
+		splitPane.add(msgScroller);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		splitPane.setRightComponent(scrollPane);
-		
+
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Código", "Palavra"}
-		));
+		table.setModel(model);
 		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane.setViewportView(table);
 	}
