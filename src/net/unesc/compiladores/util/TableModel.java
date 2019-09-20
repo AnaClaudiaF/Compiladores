@@ -1,11 +1,12 @@
-package compiladores.util;
+package net.unesc.compiladores.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import compiladores.analisador.lexico.Token;
+import net.unesc.compiladores.analisador.lexico.util.Token;
+
 
 public class TableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;

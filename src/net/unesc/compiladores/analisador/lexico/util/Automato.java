@@ -1,41 +1,32 @@
 package net.unesc.compiladores.analisador.lexico.util;
 
-import java.util.LinkedList;
 import java.util.concurrent.LinkedBlockingDeque;
 
 public class Automato {
 	private String source;
 
-	private Node node;
-
 	public Automato(String source) {
 		this.source = source;
 	}
-
-	public LinkedList<Node> getSource() {
-		LinkedList<Node> lst_node = new LinkedList<Node>();
-
+	
+	public LinkedBlockingDeque<Node> getArvoreDerivacao() {
+		
 		String[] linhas = source.split("\n");
+		LinkedBlockingDeque<Node> node = new LinkedBlockingDeque<Node>();
 		char conteudo;
-		int cursor;
 		int linha = 1;
-
+		
 		for (String line : linhas) {
-			cursor = 0;
-			while (cursor < line.length()) {
-				conteudo = line.charAt(cursor);
-
-				node = new Node(conteudo, linha, false);
-
-				lst_node.add(node);
-
-				cursor++;
+			String[] colunas = line.split("");
+			
+			for (int i = 0; i < colunas.length; i++) {
+				conteudo = colunas[i].charAt(0);
+				node.add(new Node(conteudo, linha));
 			}
+			
 			linha++;
 		}
-
-		System.out.println(lst_node);
-
-		return lst_node;
+		
+		return node;
 	}
 }

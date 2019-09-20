@@ -3,73 +3,61 @@ package net.unesc.compiladores.analisador.lexico.util;
 import java.util.HashMap;
 
 public class Tokens {
-	public static final char CHAR_DEFAULT = 'Z';
-	public static final char CHAR_ALFA = 'A';
-	public static final char CHAR_NUMERICO = 'N';
-	public static final char CHAR_RELACIONAL = 'R';
-	public static final char CHAR_ESPECIAL = 'E';
-	public static final char CHAR_LITERAL = 'L';
-	
-	private HashMap<String, Integer> token = new HashMap<>();
+	private HashMap<String, Token> token = new HashMap<>();
 	{
-		token.put("program", 1);
-		token.put("label", 2);
-		token.put("const", 3);
-		token.put("var", 4);
-		token.put("procedure", 5);
-		token.put("begin", 6);
-		token.put("end", 7);
-		token.put("integer", 8);
-		token.put("array", 9);
-		token.put("of", 10);
-		token.put("call", 11);
-		token.put("goto", 12);
-		token.put("if", 13);
-		token.put("then", 14);
-		token.put("else", 15);
-		token.put("while", 16);
-		token.put("do", 17);
-		token.put("repeat", 18);
-		token.put("until", 19);
-		token.put("readln", 20);
-		token.put("writeln", 21);
-		token.put("or", 22);
-		token.put("and", 23);
-		token.put("not", 24);
-		token.put("identificador", 25);
-		token.put("inteiro", 26);
-		token.put("for", 27);
-		token.put("to", 28);
-		token.put("case", 29);
-		token.put("+", 30);
-		token.put("-", 31);
-		token.put("*", 32);
-		token.put("/", 33);
-		token.put("[", 34);
-		token.put("]", 35);
-		token.put("(", 36);
-		token.put(")", 37);		
-		token.put(":=", 38);
-		token.put(":", 39);
-		token.put("=", 40);
-		token.put(">", 41);
-		token.put(">=", 42);
-		token.put("<", 43);
-		token.put("<=", 44);
-		token.put("<>", 45);		
-		token.put(",", 46);
-		token.put(";", 47);
-		token.put("literal", 48);
-		token.put(".", 49);
-		token.put("..", 50);
+		token.put("program", new Token(1, "program"));
+		token.put("label", new Token(2, "label"));
+		token.put("const", new Token(3, "const"));
+		token.put("var", new Token(4, "var"));
+		token.put("procedure", new Token(5, "procedure"));
+		token.put("begin", new Token(6, "begin"));
+		token.put("end", new Token(7, "end"));
+		token.put("integer", new Token(8, "integer"));
+		token.put("array", new Token(9, "array"));
+		token.put("of", new Token(10, "of"));
+		token.put("call", new Token(11, "call"));
+		token.put("goto", new Token(12, "goto"));
+		token.put("if", new Token(13, "if"));
+		token.put("then", new Token(14, "then"));
+		token.put("else", new Token(15, "else"));
+		token.put("while", new Token(16, "while"));
+		token.put("do", new Token(17, "do"));
+		token.put("repeat", new Token(18, "repeat"));
+		token.put("until", new Token(19, "until"));
+		token.put("readln", new Token(20, "readln"));
+		token.put("writeln", new Token(21, "writeln"));
+		token.put("or", new Token(22, "or"));
+		token.put("and", new Token(23, "and"));
+		token.put("not", new Token(24, "not"));
+		token.put("identificador", new Token(25, "identificador"));
+		token.put("inteiro", new Token(26, "inteiro"));
+		token.put("for", new Token(27, "for"));
+		token.put("to", new Token(28, "to"));
+		token.put("case", new Token(29, "case"));
+		token.put("+", new Token(30, "+"));
+		token.put("-", new Token(31, "-"));
+		token.put("*", new Token(32, "*"));
+		token.put("/", new Token(33, "/"));
+		token.put("[", new Token(34, "["));
+		token.put("]", new Token(35, "]"));
+		token.put("(", new Token(36, "("));
+		token.put(")", new Token(37, ")"));		
+		token.put(":=", new Token(38, ":="));
+		token.put(":", new Token(39, ":"));
+		token.put("=", new Token(40, "="));
+		token.put(">", new Token(41, ">"));
+		token.put(">=", new Token(42, ">="));
+		token.put("<", new Token(43, "<"));
+		token.put("<=", new Token(44, "<="));
+		token.put("<>", new Token(45, "<>"));		
+		token.put(",", new Token(46, ","));
+		token.put(";", new Token(47, ";"));
+		token.put("literal", new Token(48, "literal"));
+		token.put(".", new Token(49, "."));
+		token.put("..", new Token(50, ".."));
 	}
 
-	public Integer getCodigoToken(String nome) {
-System.out.println(token.get(nome));
+	public Token getCodigoToken(String nome) {
 		return token.get(nome);
-	}
-	
-	public boolean isSimbolo(String nome) {
-		return token.containsKey(nome);
 	}
 }

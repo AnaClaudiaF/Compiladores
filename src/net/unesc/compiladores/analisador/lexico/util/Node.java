@@ -6,23 +6,21 @@ public class Node {
 	private boolean literal;
 	private boolean simbolo;
 	private boolean espaco;
-	private boolean final_linha;
-	private int linha;
 	private char source;
+	private int linha;
 	
-	public Node(Character source, int linha, boolean final_linha) {
-		setTipoLido(source);
-		this.source = source;
+	public Node(Character source, int linha) {
 		this.linha = linha;
-		this.final_linha = final_linha;
+		this.source = source;
+		
+		setTipoLido(source);
 	}
-
+	
 	private void setTipoLido(Character source) {
 		espaco = Character.isWhitespace(source);
 		alfanumerico = Character.isAlphabetic(source) || source.toString().matches("_");
 		numerico = Character.isDigit(source);
 		simbolo = source.toString().matches("(\\+|\\-|\\*|\\/|\\[|\\]|\\(|\\)|\\:|\\=|\\>|\\<|\\,|\\;|\\.|\\')");
-		literal = (source == '\"');
 	}
 
 	public boolean isNumerico() {
@@ -45,37 +43,17 @@ public class Node {
 		return espaco;
 	}
 	
-	public boolean isEndLine() {
-		return final_linha;
-	}
-		
-	/**
-	 * @param b
-	 */
-	public void setEndLine(boolean final_linha) {
-		this.final_linha = final_linha;
-	}
-	
-	public int getLine() {
+	public int getLinha() {
 		return linha;
 	}
-
-	public String getChar()
-	{
+	
+	public String getCharacter() {
 		return String.valueOf(source);
 	}
-	
+
 	@Override
 	public String toString()
 	{
-		return "{source: " + source +
-				", numerico: " + numerico +
-				", alfanumerico: " + alfanumerico +
-				", literal: " + literal +
-				", simbolo: " + simbolo +
-				", espaco: " + espaco +
-				", final_linha: " + final_linha +
-				", linha: " + linha +
-			"}";
+		return "{Source: " + source + ", Linha: " + linha + ", Numerico: " + numerico + ", Alfanumerico: " + alfanumerico + ", Literal: " + literal + ", Simbolo: " + simbolo + "}";
 	}
 }
