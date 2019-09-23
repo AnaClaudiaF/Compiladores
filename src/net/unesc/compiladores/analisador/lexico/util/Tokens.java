@@ -3,6 +3,14 @@ package net.unesc.compiladores.analisador.lexico.util;
 import java.util.HashMap;
 
 public class Tokens {
+	public static final String INICIO_COMENTARIO = "(*";
+	public static final String FIM_COMENTARIO = "*)";
+	public static final String INICIO_LITERAL = "'";
+	public static final int TAMANHO_LITERAL = 255;
+    public final Token Identificador = new Token(25, "identificador");
+    public final Token Inteiro = new Token(26, "inteiro");
+    public final Token Literal = new Token(48, "literal");
+	
 	private HashMap<String, Token> token = new HashMap<>();
 	{
 		token.put("program", new Token(1, "program"));
