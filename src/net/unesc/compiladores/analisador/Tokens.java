@@ -1,3 +1,4 @@
+
 package net.unesc.compiladores.analisador;
 
 import java.util.HashMap;
@@ -65,6 +66,43 @@ public class Tokens {
 		token.put("literal", new Token(48, "literal"));
 		token.put(".", new Token(49, "."));
 		token.put("..", new Token(50, ".."));
+		
+		token.put("programa", new Token(52, "programa"));   			
+		token.put("bloco", new Token(53, "bloco"));   				
+		token.put("dclrot", new Token(54, "dclrot"));   				
+		token.put("lid", new Token(55, "lid"));   					
+		token.put("repident", new Token(56, "repident"));   			
+		token.put("dclconst", new Token(57, "dclconst"));   			
+		token.put("ldconst", new Token(58, "ldconst"));   				
+		token.put("dclvar", new Token(59, "dclvar"));   				
+		token.put("ldvar", new Token(60, "ldvar"));   	
+		token.put("tipo", new Token(61, "tipo"));   		
+		token.put("dclproc", new Token(62, "dclproc"));   			
+		token.put("defpar", new Token(63, "defpar"));   		
+		token.put("corpo", new Token(64, "corpo"));   		
+		token.put("repcomando", new Token(65, "repcomando"));   	
+		token.put("comando", new Token(66, "comando"));   		
+		token.put("rcomid", new Token(67, "rcomid"));   		
+		token.put("rvar", new Token(68, "rvar"));   		
+		token.put("parametros", new Token(69, "parametros"));   
+		token.put("reppar", new Token(70, "reppar"));   		
+		token.put("elseparte", new Token(71, "elseparte"));   		
+		token.put("variavel", new Token(72, "variavel"));   	
+		token.put("variavel1", new Token(73, "variavel1"));   	
+		token.put("repvariavel", new Token(74, "repvariavel"));   	
+		token.put("itemsaida", new Token(75, "itemsaida"));   	
+		token.put("repitem", new Token(76, "repitem"));   		
+		token.put("expressao", new Token(77, "expressao"));   	
+		token.put("repexpsimp", new Token(78, "repexpsimp"));   	
+		token.put("expsimp", new Token(79, "expsimp"));  	
+		token.put("repexp", new Token(80, "repexp"));  	
+		token.put("termo", new Token(81, "termo"));  
+		token.put("reptermo", new Token(82, "reptermo"));  
+		token.put("fator", new Token(83, "fator"));  
+		token.put("condcase", new Token(84, "condcase"));  
+		token.put("contcase", new Token(85, "contcase"));  
+		token.put("rpinteiro", new Token(86, "rpinteiro"));  
+		token.put("sem efeito", new Token(87, "sem efeito"));
 	}
 
 	public Token getCodigoToken(String nome) {
