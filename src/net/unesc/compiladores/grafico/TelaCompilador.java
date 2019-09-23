@@ -20,13 +20,14 @@ import net.unesc.compiladores.analisador.lexico.AnalisadorLexico;
 import net.unesc.compiladores.analisador.lexico.util.Token;
 import net.unesc.compiladores.grafico.util.TableModel;
 import net.unesc.compiladores.grafico.util.TextLineNumber;
+import net.unesc.compiladores.grafico.util.TextPane;
 
 public class TelaCompilador extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
 	private JTable table;
-	private JTextArea txa_entrada_codigo;
+	private TextPane txa_entrada_codigo;
 	private JTextArea console;
 	private TableModel model;
 
@@ -93,7 +94,7 @@ public class TelaCompilador extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane);
 		
-		txa_entrada_codigo = new JTextArea();
+		txa_entrada_codigo = new TextPane();
 		scrollPane.setViewportView(txa_entrada_codigo);
 		
 		TextLineNumber contadorLinhas = new TextLineNumber(txa_entrada_codigo);
