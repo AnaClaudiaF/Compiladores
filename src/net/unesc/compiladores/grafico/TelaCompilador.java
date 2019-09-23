@@ -65,11 +65,14 @@ public class TelaCompilador extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				AnalisadorLexico lexico = new AnalisadorLexico(txa_entrada_codigo.getText());
-				List<Token> analise = lexico.getAnaliseLexica();
+				List<Token> analise = lexico.getAnalise();
 				
 				if (!lexico.getErro().isEmpty()) {
 					console.setText(lexico.getErro().toString());
 				}
+				
+				model = new TableModel(analise);
+				table.setModel(model);
 			}
 		});
 		menuBar.add(btnExecutar);
