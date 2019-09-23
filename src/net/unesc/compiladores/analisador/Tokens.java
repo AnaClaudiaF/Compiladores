@@ -1,6 +1,8 @@
-package net.unesc.compiladores.analisador.lexico.util;
+package net.unesc.compiladores.analisador;
 
 import java.util.HashMap;
+
+import net.unesc.compiladores.analisador.lexico.util.Token;
 
 public class Tokens {
 	public static final String INICIO_COMENTARIO = "(*";

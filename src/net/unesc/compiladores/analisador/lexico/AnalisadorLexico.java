@@ -1,5 +1,10 @@
 package net.unesc.compiladores.analisador.lexico;
 
+import static net.unesc.compiladores.analisador.Tokens.FIM_COMENTARIO;
+import static net.unesc.compiladores.analisador.Tokens.INICIO_COMENTARIO;
+import static net.unesc.compiladores.analisador.Tokens.INICIO_LITERAL;
+import static net.unesc.compiladores.analisador.Tokens.TAMANHO_LITERAL;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,14 +12,10 @@ import java.util.regex.Pattern;
 
 import net.unesc.compiladores.analisador.BaseAnalisador;
 import net.unesc.compiladores.analisador.Erro;
+import net.unesc.compiladores.analisador.Tokens;
 import net.unesc.compiladores.analisador.lexico.util.Automato;
 import net.unesc.compiladores.analisador.lexico.util.Node;
 import net.unesc.compiladores.analisador.lexico.util.Token;
-import net.unesc.compiladores.analisador.lexico.util.Tokens;
-import static net.unesc.compiladores.analisador.lexico.util.Tokens.INICIO_COMENTARIO;
-import static net.unesc.compiladores.analisador.lexico.util.Tokens.FIM_COMENTARIO;
-import static net.unesc.compiladores.analisador.lexico.util.Tokens.INICIO_LITERAL;
-import static net.unesc.compiladores.analisador.lexico.util.Tokens.TAMANHO_LITERAL;
 
 public class AnalisadorLexico extends BaseAnalisador {
 	private Automato source;
