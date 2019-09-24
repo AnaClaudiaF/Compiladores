@@ -3,6 +3,7 @@ package net.unesc.compiladores.grafico;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -16,8 +17,10 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import net.unesc.compiladores.analisador.BaseAnalisador;
 import net.unesc.compiladores.analisador.lexico.AnalisadorLexico;
 import net.unesc.compiladores.analisador.lexico.util.Token;
+import net.unesc.compiladores.analisador.sintatico.Sintatico;
 import net.unesc.compiladores.grafico.util.TableModel;
 import net.unesc.compiladores.grafico.util.TextLineNumber;
 import net.unesc.compiladores.grafico.util.TextPane;
@@ -65,12 +68,15 @@ public class TelaCompilador extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AnalisadorLexico lexico = new AnalisadorLexico(txa_entrada_codigo.getText());
-				List<Token> analise = lexico.getAnalise();
+				BaseAnalisador analisador = new AnalisadorLexico(txa_entrada_codigo.getText());
+				LinkedList<Token> analise = analisador.getAnalise();
 				
-				if (!lexico.getErro().isEmpty()) {
-					console.setText(lexico.getErro().toString());
+				if (!analisador.getErro().isEmpty()) {
+					console.setText(analisador.getErro().toString());
 				}
+				
+				analisador = new Sintatico(analise);
+				analisador.getAnalise();
 				
 				model = new TableModel(analise);
 				table.setModel(model);

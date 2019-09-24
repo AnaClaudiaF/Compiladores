@@ -1,6 +1,7 @@
 package net.unesc.compiladores.analisador;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import net.unesc.compiladores.analisador.lexico.util.Token;
@@ -16,7 +17,7 @@ public abstract class BaseAnalisador {
 		return erro;
 	}
 
-	public abstract List<Token> getAnalise();
+	public abstract LinkedList<Token> getAnalise();
 
 	protected void addErro(Erro e) {
 		erro.add(e);

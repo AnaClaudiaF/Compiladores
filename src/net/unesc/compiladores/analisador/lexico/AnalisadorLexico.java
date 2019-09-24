@@ -5,9 +5,7 @@ import static net.unesc.compiladores.analisador.Tokens.INICIO_COMENTARIO;
 import static net.unesc.compiladores.analisador.Tokens.INICIO_LITERAL;
 import static net.unesc.compiladores.analisador.Tokens.TAMANHO_LITERAL;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import net.unesc.compiladores.analisador.BaseAnalisador;
@@ -20,15 +18,15 @@ import net.unesc.compiladores.analisador.lexico.util.Token;
 public class AnalisadorLexico extends BaseAnalisador {
 	private Automato source;
 	private Tokens tokens;
-	private List<Token> saida;
+	private LinkedList<Token> saida;
 
 	public AnalisadorLexico(String source) {
 		this.source = new Automato(source);
 		this.tokens = new Tokens();
-		this.saida = new ArrayList<Token>();
+		this.saida = new LinkedList<Token>();
 	}
 
-	public List<Token> getAnalise() {
+	public LinkedList<Token> getAnalise() {
 
 		LinkedList<Node> source = this.source.getArvoreDerivacao();
 		StringBuilder buffer = new StringBuilder();
@@ -123,7 +121,6 @@ public class AnalisadorLexico extends BaseAnalisador {
 								buffer.append(node.getCharacter());
 							} else {
 								// cometário sem fechamento
-								System.err.println("comentário sem fechamento");
 								addErro(new Erro("Comentário sem fechar", node.getLinha()));
 								break c;
 							}

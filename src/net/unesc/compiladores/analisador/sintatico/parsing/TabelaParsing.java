@@ -1,27 +1,203 @@
 package net.unesc.compiladores.analisador.sintatico.parsing;
 
+import java.util.HashMap;
+
 public class TabelaParsing {
-	private Integer codigo;
-	private String descricao;
-	
-	public TabelaParsing(Integer codigo, String descricao) {
-		this.codigo = codigo;
-		this.descricao = descricao;
+	private HashMap<String, String> tabela_parsing = new HashMap<String, String>();
+	{
+		tabela_parsing.put("52|1","1|25|47|53|49");
+		tabela_parsing.put("53|2","54|57|59|62|64");
+		tabela_parsing.put("53|3","54|57|59|62|64");
+		tabela_parsing.put("53|4","54|57|59|62|64");
+        tabela_parsing.put("53|5","54|57|59|62|64");
+		tabela_parsing.put("53|6","54|57|59|62|64");
+		tabela_parsing.put("54|2","2|55|47");
+		tabela_parsing.put("54|3", null);
+		tabela_parsing.put("54|4", null);
+		tabela_parsing.put("54|5", null);
+		tabela_parsing.put("54|6", null);
+		tabela_parsing.put("55|25","25|56");
+		tabela_parsing.put("56|39", null);
+		tabela_parsing.put("56|46","46|25|56");
+		tabela_parsing.put("56|47", null);				
+		tabela_parsing.put("57|3","3|25|40|26|47|58");
+		tabela_parsing.put("57|4", null);
+		tabela_parsing.put("57|5", null);
+		tabela_parsing.put("57|6", null);
+		tabela_parsing.put("58|4", null);
+		tabela_parsing.put("58|5", null);
+		tabela_parsing.put("58|6", null);
+		tabela_parsing.put("58|25","25|40|26|47|58");
+		tabela_parsing.put("59|4","4|55|39|61|47|60");
+		tabela_parsing.put("59|5", null);
+		tabela_parsing.put("59|6", null);
+		tabela_parsing.put("60|5", null);
+		tabela_parsing.put("60|6", null);
+		tabela_parsing.put("60|25","55|39|61|47|60");
+		tabela_parsing.put("61|8","8");
+		tabela_parsing.put("61|9","9|34|26|50|26|35|10|8");
+		tabela_parsing.put("62|5","5|25|63|47|53|47|62");
+		tabela_parsing.put("62|6", null);
+		tabela_parsing.put("63|36","36|55|39|8|37");
+		tabela_parsing.put("63|39", null);
+		tabela_parsing.put("64|6","6|66|65|7");
+		tabela_parsing.put("65|7", null);
+		tabela_parsing.put("65|47","47|66|65");
+		tabela_parsing.put("66|6","64");
+		tabela_parsing.put("66|7", null);
+		tabela_parsing.put("66|11","11|25|69");
+		tabela_parsing.put("66|12","12|25");
+		tabela_parsing.put("66|13","13|77|14|66|71");
+		tabela_parsing.put("66|15", null);
+		tabela_parsing.put("66|16","16|77|17|66");
+		tabela_parsing.put("66|18","18|66|19|77");
+		tabela_parsing.put("66|19", null);
+		tabela_parsing.put("66|20","20|36|72|74|37");
+		tabela_parsing.put("66|21","21|36|75|76|37");
+		tabela_parsing.put("66|25","25|67");
+		tabela_parsing.put("66|27","27|25|38|77|28|77|17|66");
+		tabela_parsing.put("66|29","29|77|10|84|7");
+		tabela_parsing.put("66|47", null);
+		tabela_parsing.put("67|34","68|38|77");
+		tabela_parsing.put("67|38","68|38|77");
+		tabela_parsing.put("67|39","39|66");
+		tabela_parsing.put("68|34","34|77|35");
+		tabela_parsing.put("68|38", null);
+		tabela_parsing.put("69|7", null);
+		tabela_parsing.put("69|15", null);
+		tabela_parsing.put("69|19", null);
+		tabela_parsing.put("69|36","36|77|70|37");
+		tabela_parsing.put("69|47", null);
+		tabela_parsing.put("70|37", null);
+		tabela_parsing.put("70|46","46|77|70");
+		tabela_parsing.put("71|7", null);
+		tabela_parsing.put("71|15","15|66");
+		tabela_parsing.put("71|19", null);
+		tabela_parsing.put("71|47", null);
+		tabela_parsing.put("72|25","25|73");
+		tabela_parsing.put("73|7", null);
+		tabela_parsing.put("73|10", null);
+		tabela_parsing.put("73|14", null);
+		tabela_parsing.put("73|15", null);
+		tabela_parsing.put("73|17", null);
+		tabela_parsing.put("73|19", null);
+		tabela_parsing.put("73|22", null);
+		tabela_parsing.put("73|23", null);
+		tabela_parsing.put("73|28", null);
+		tabela_parsing.put("73|30", null);
+		tabela_parsing.put("73|31", null);
+		tabela_parsing.put("73|32", null);
+		tabela_parsing.put("73|33", null);
+		tabela_parsing.put("73|34","34|77|35");
+		tabela_parsing.put("73|35", null);
+		tabela_parsing.put("73|37", null);
+		tabela_parsing.put("73|40", null);
+		tabela_parsing.put("73|41", null);
+		tabela_parsing.put("73|42", null);
+		tabela_parsing.put("73|43", null);
+		tabela_parsing.put("73|44", null);
+		tabela_parsing.put("73|45", null);
+		tabela_parsing.put("73|46", null);
+		tabela_parsing.put("73|47", null);
+		tabela_parsing.put("74|37", null);
+		tabela_parsing.put("74|46","46|72|74");
+		tabela_parsing.put("75|24","77");
+		tabela_parsing.put("75|25","77");
+		tabela_parsing.put("75|26","77");
+		tabela_parsing.put("75|30","77");
+		tabela_parsing.put("75|31","77");
+		tabela_parsing.put("75|36","77");
+		tabela_parsing.put("75|48","48");
+		tabela_parsing.put("76|37", null);
+		tabela_parsing.put("76|46","46|75|76");
+		tabela_parsing.put("77|24","79|78");
+		tabela_parsing.put("77|25","79|78");
+		tabela_parsing.put("77|26","79|78");
+		tabela_parsing.put("77|30","79|78");
+		tabela_parsing.put("77|31","79|78");
+		tabela_parsing.put("77|36","79|78");
+		tabela_parsing.put("78|7", null);
+		tabela_parsing.put("78|10", null);
+		tabela_parsing.put("78|14", null);
+		tabela_parsing.put("78|15", null);
+		tabela_parsing.put("78|17", null);
+		tabela_parsing.put("78|19", null);
+		tabela_parsing.put("78|28", null);
+		tabela_parsing.put("78|35", null);
+		tabela_parsing.put("78|37", null);
+		tabela_parsing.put("78|40","40|79");
+		tabela_parsing.put("78|41","41|79");
+		tabela_parsing.put("78|42","42|79");
+		tabela_parsing.put("78|43","43|79");
+		tabela_parsing.put("78|44","44|79");
+		tabela_parsing.put("78|45","45|79");
+		tabela_parsing.put("78|46", null);
+		tabela_parsing.put("78|47", null);
+		tabela_parsing.put("79|24","81|80");
+		tabela_parsing.put("79|25","81|80");
+		tabela_parsing.put("79|26","81|80");
+		tabela_parsing.put("79|30","30|81|80");
+		tabela_parsing.put("79|31","31|81|80");
+		tabela_parsing.put("79|36","81|80");
+		tabela_parsing.put("80|7", null);
+		tabela_parsing.put("80|10", null);
+		tabela_parsing.put("80|14", null);
+		tabela_parsing.put("80|15", null);
+		tabela_parsing.put("80|17", null);
+		tabela_parsing.put("80|19", null);
+		tabela_parsing.put("80|22","22|81|80");
+		tabela_parsing.put("80|28", null);
+		tabela_parsing.put("80|30","30|81|80");
+		tabela_parsing.put("80|31","31|81|80");
+		tabela_parsing.put("80|35", null);
+		tabela_parsing.put("80|37", null);
+		tabela_parsing.put("80|40", null);
+		tabela_parsing.put("80|41", null);
+		tabela_parsing.put("80|42", null);
+		tabela_parsing.put("80|43", null);
+		tabela_parsing.put("80|44", null);
+		tabela_parsing.put("80|45", null);
+		tabela_parsing.put("80|46", null);
+		tabela_parsing.put("80|47", null);
+		tabela_parsing.put("81|24","83|82");
+		tabela_parsing.put("81|25","83|82");
+		tabela_parsing.put("81|26","83|82");
+		tabela_parsing.put("81|36","83|82");
+		tabela_parsing.put("82|7", null);
+		tabela_parsing.put("82|10", null);
+		tabela_parsing.put("82|14", null);
+		tabela_parsing.put("82|15", null);
+		tabela_parsing.put("82|17", null);
+		tabela_parsing.put("82|19", null);
+		tabela_parsing.put("82|22", null);
+		tabela_parsing.put("82|23","23|83|82");
+		tabela_parsing.put("82|28", null);
+		tabela_parsing.put("82|30", null);
+		tabela_parsing.put("82|31", null);
+		tabela_parsing.put("82|32","32|83|82");
+		tabela_parsing.put("82|33","33|83|82");
+		tabela_parsing.put("82|35", null);
+		tabela_parsing.put("82|37", null);
+		tabela_parsing.put("82|40", null);
+		tabela_parsing.put("82|41", null);
+		tabela_parsing.put("82|42", null);
+		tabela_parsing.put("82|43", null);
+		tabela_parsing.put("82|44", null);
+		tabela_parsing.put("82|45", null);
+		tabela_parsing.put("82|46", null);
+		tabela_parsing.put("82|47", null);
+		tabela_parsing.put("83|24","24|83");
+		tabela_parsing.put("83|25","72");
+		tabela_parsing.put("83|26","26");
+		tabela_parsing.put("83|36","36|77|37");
+		tabela_parsing.put("84|26","26|86|39|66|85");
+		tabela_parsing.put("85|7", null);
+		tabela_parsing.put("85|47","47|84");
+		tabela_parsing.put("86|39", null);
+		tabela_parsing.put("86|46","46|26|86");
 	}
 	
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
-	}
-	
-	public Integer getCodigo() {
-		return codigo;
-	}
-	
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-	
-	public String getDescricao() {
-		return descricao;
+	public String getParsing(String derivacao) {
+		return tabela_parsing.get(derivacao);
 	}
 }
