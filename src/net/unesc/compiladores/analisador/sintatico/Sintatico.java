@@ -1,6 +1,8 @@
 package net.unesc.compiladores.analisador.sintatico;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,113 +13,60 @@ import net.unesc.compiladores.analisador.sintatico.parsing.TabelaParsing;
 
 public class Sintatico extends BaseAnalisador {
 
-	private LinkedList<Token> tokens;
 	private TabelaParsing tabelaParsing;
-	private LinkedList<String> derivado;
+	private LinkedList<Token> listToken;
+	private LinkedList<String> listParsing;
+	private Token token = null;
 
-	public Sintatico(LinkedList<Token> tokens) {
-		this.tokens = tokens;
+	public Sintatico(LinkedList<Token> listToken) {
+		this.listToken = listToken;
 		this.tabelaParsing = new TabelaParsing();
+		this.listParsing = new LinkedList<String>();
 	}
 
 	@Override
 	public LinkedList<Token> getAnalise() {
-
-		setDerivacao(52, 1);
-		Integer codigo_token;
-		Integer codigo_pilha;
+		Integer codigoLexico;
+		Integer codigoPilha;
 		Integer linha;
 
-		while (!derivado.isEmpty()) {
-			Token token = null;
-			if (tokens != null && !tokens.isEmpty()) {
-				token = tokens.peek();
-				codigo_token = token.getCodigo();
-				codigo_pilha = Integer.parseInt(derivado.peek());
+		Derivacao(ParcingRecuperar(52, 1));
+
+		while (!listParsing.isEmpty()) {
+			if (!listToken.isEmpty()) {
+				token = listToken.peek();
+
+				codigoLexico = token.getCodigo();
+				codigoPilha = new Integer(listParsing.peek());
 				linha = token.getLinha();
 
-				/*
-				Se é um terminal
-				*/
-				if	(codigo_pilha < 52)
-				{
-					
-					System.out.println("Terminal");
-					System.out.println(codigo_pilha);
-					System.out.println(codigo_token);
-					
-					/*
-					Se códigos foram iguais
-					*/
-					
-					if	(codigo_pilha.equals(codigo_token))
-					{
-						System.out.println("Removendo os dados da pilha");
-
-						derivado.pop();
-						tokens.pop();
-					}
-					
-					/*
-					Se não forem iguais
-					*/
-					else
-					{
-						/*
-						Sinaliza o erro sintático e a linha
-						*/
+				if (codigoPilha < 52) {
+					if (codigoPilha.equals(codigoLexico)) {
+						listToken.pop();
+						listParsing.pop();
+					} else {
 						addErro(new Erro("Erro sintático na linha ", linha));
-						
 						break;
 					}
-				}
-				
-				/*
-				Se é um não terminal
-				*/
-				else
-				{
-					
+				} else {
 					System.out.println("Não terminal");
-					
-					/*
-					Remove os dados da pilha
-					*/
-					derivado.pop();
-					
-					/*
-					Guarda os novos códigos de derivação no começo da pilha
-					*/
-					setDerivacao(codigo_pilha, codigo_token);
-					
-					/*
-					Continua a leitura dos registros
-					*/
+
+					listParsing.pop();
+
+					Derivacao(ParcingRecuperar(codigoPilha, codigoLexico));
+
 					continue;
-				
 				}
-				
-			System.out.println(getErro());
-				
+
+			} else {
+				break;
 			}
 		}
 
 		return null;
 	}
 
-	private LinkedList<String> setDerivacao(int codigo, int derivacao) {
-		String codigo_derivacao = tabelaParsing.getParsing(codigo + "|" + derivacao);
-System.out.println(codigo_derivacao);
-
-		if (codigo_derivacao != null && !codigo_derivacao.trim().isEmpty()) {
-			derivado = new LinkedList<String>(Arrays.asList(codigo_derivacao.split("\\|")));
-			System.out.println(derivado);
-		}
-
-		return derivado != null && !derivado.isEmpty() ? null : derivado;
-	}
-
-	private LinkedList<String> ParcingRecuperar(int codigo, int linha) {
+	private List<String> ParcingRecuperar(int codigo, int linha) {
 
 		System.out.println(
 				"Iniciando recuperação dos dados da tabela de parcing. Codigo -> " + codigo + " Linha -> " + linha);
@@ -128,7 +77,7 @@ System.out.println(codigo_derivacao);
 		String parcing = tabelaParsing.getParsing(codigo + "|" + linha);
 		System.out.println("Tabela parcing -> " + parcing);
 
-		LinkedList<String> derivacao = null;
+		List<String> derivacao = null;
 
 		/*
 		 * Se entrado os dados da tabela de parsing
@@ -140,12 +89,42 @@ System.out.println(codigo_derivacao);
 			/*
 			 * Adiciona na lista de derivação retirando quebrando pelo "|"
 			 */
-			derivacao = new LinkedList<String>(Arrays.asList(parcing.split("\\|")));
+			derivacao = new ArrayList<>(Arrays.asList(parcing.split("\\|")));
 		}
 
 		/*
 		 * Retorna a lista de derivação
 		 */
 		return (derivacao != null && !derivacao.isEmpty() ? derivacao : null);
+	}
+
+	private <E> LinkedList<String> Derivacao(List<String> derivacao) {
+
+		/*
+		 * Se não existir dados para derivação retorna nada
+		 */
+		if (derivacao == null)
+
+			return null;
+
+		/*
+		 * Faz a reversão dos dados
+		 */
+		Collections.reverse(derivacao);
+
+		/*
+		 * Percorre todos os objetos de derivação e adiciona na lista
+		 */
+		for (String derivar : derivacao) {
+
+			System.out.println("Derivando os registros do parsing -> " + derivar);
+
+			/*
+			 * Adiciona na primeira posição da lista os dados da tabela de parsing
+			 */
+			listParsing.add(0, derivar);
+		}
+
+		return listParsing;
 	}
 }

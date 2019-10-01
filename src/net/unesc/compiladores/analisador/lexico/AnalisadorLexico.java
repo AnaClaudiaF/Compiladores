@@ -36,7 +36,7 @@ public class AnalisadorLexico extends BaseAnalisador {
 		c: while (!source.isEmpty()) {
 			node = source.pop();
 
-			if (node.isNumerico() || node.isAlfanumerico()) {
+			if (node.isNumerico() || node.isAlfanumerico() || (node.getCharacter().equals(".") && source.peek().isNumerico())) {
 				buffer.append(node.getCharacter());
 				continue;
 			}
@@ -78,10 +78,14 @@ public class AnalisadorLexico extends BaseAnalisador {
 				if (tokens.getCodigoToken(buffer.toString()) != null) {
 					if (tokens.getCodigoToken(buffer.toString()).getCodigo() == 31 && node.isNumerico()) {
 						node = source.pop();
-						while (node.isNumerico()) {
+						do {
+							if (source.peek().getCharacter().equals(".")){
+								buffer.append(node.getCharacter());
+								node = source.pop();
+							}
 							buffer.append(node.getCharacter());
 							node = source.pop();
-						}
+						} while (node.isNumerico());
 
 						if (node.isAlfanumerico()) {
 							addErro(new Erro("Valor alfanumérico inválido", node.getLinha()));
@@ -113,19 +117,24 @@ public class AnalisadorLexico extends BaseAnalisador {
 					}
 
 					if ((buffer.toString() + source.peek().getCharacter()).equals(INICIO_COMENTARIO)) {
+						String comentario = "";
+
 						do {
 							buffer.delete(0, buffer.length());
 
-							if (!source.isEmpty()) {
-								node = source.pop();
-								buffer.append(node.getCharacter());
-							} else {
-								// cometário sem fechamento
-								addErro(new Erro("Comentário sem fechar", node.getLinha()));
+							// comentário sem fechamento
+							if (comentario.equals(INICIO_COMENTARIO) || source.isEmpty()) {
+								addErro(new Erro("Comentário aberto", node.getLinha()));
 								break c;
 							}
-						} while (!(buffer.toString() + (!source.isEmpty() ? source.peek().getCharacter() : ""))
-								.equals(FIM_COMENTARIO));
+
+							node = source.pop();
+							buffer.append(node.getCharacter());
+							
+							comentario = buffer.toString() + (!source.isEmpty() ? source.peek().getCharacter() : "");
+System.out.println(comentario);
+						} while (!comentario.equals(FIM_COMENTARIO));
+
 						node = source.pop();
 						buffer.delete(0, buffer.length());
 					}
@@ -133,9 +142,33 @@ public class AnalisadorLexico extends BaseAnalisador {
 
 				if (buffer.toString().equals(INICIO_LITERAL)) {
 					node = source.pop();
+					String literal = "";
+					buffer.delete(0, buffer.length());
 					do {
+//						buffer.delete(0, buffer.length());
 
-					} while (source.peek().getCharacter().equals(INICIO_LITERAL));
+						// comentário sem fechamento
+						if (literal.equals(INICIO_LITERAL) || source.isEmpty()) {
+							addErro(new Erro("Literal sem fechamento", node.getLinha()));
+							break c;
+						}
+
+						node = source.pop();
+						buffer.append(node.getCharacter());
+						
+						literal = (!source.isEmpty() ? source.peek().getCharacter() : "");
+System.out.println(literal);
+					} while (!literal.equals(INICIO_LITERAL));
+					
+					if (buffer.toString().length() <= TAMANHO_LITERAL) {
+						saida.add(
+								new Token(tokens.Inteiro.getCodigo(), buffer.toString(), node.getLinha()));
+						
+						buffer.delete(0, buffer.length());
+					} else {
+						addErro(new Erro("Literal com o tamanho inválido", node.getLinha()));
+						break c;
+					}
 				}
 			}
 
@@ -155,25 +188,5 @@ public class AnalisadorLexico extends BaseAnalisador {
 		}
 
 		return saida;
-	}
-
-	private final boolean isIdentificador(final String buffer) {
-		return (buffer.trim().length() > 0 && Character.isAlphabetic(buffer.trim().charAt(0))
-				&& buffer.trim().length() <= 30);
-	}
-
-	private boolean isFloat(String number) {
-		String decimalPattern = "([0-9]*)\\.([0-9]*)";
-
-		return Pattern.matches(decimalPattern, number);
-	}
-
-	public static void main(String[] args) {
-		new AnalisadorLexico("program teste_proc1; \n" + "var \n" + "x, y, z :integer; \n" + "procedure p; \n"
-				+ "var \n" + "a :integer; \n" + "begin \n" + "a:=-20000;\n" + "readln(a); \n" + "if a=x then\n"
-				+ "z:=z+x\n" + "else begin \n" + "z:=z-x;   \n" + "call p; \n" + "end; \n"
-				+ "(* comentario integer .*)\n" + "end; \n" + "begin \n" + "z:=0; \n" + "readln(x,y); \n"
-				+ "if x>y then \n" + "call p \n" + "else  \n" + "z:=z+x+y; \n" + "writeln(z); \n" + "end.")
-						.getAnalise();
 	}
 }
