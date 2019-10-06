@@ -5,15 +5,21 @@ import java.util.HashMap;
 
 import net.unesc.compiladores.analisador.lexico.util.Token;
 
+/*
+ * Tabela identificando codigo e valor.
+ * Identificando também alguns conjutos de caracters ja predefinos como: comentarios entre outros.  
+ * */
+
 public class Tokens {
 	public static final String INICIO_COMENTARIO = "(*";
 	public static final String FIM_COMENTARIO = "*)";
 	public static final String INICIO_LITERAL = "'";
+	public static final String FIM_LITERAL = "';";
 	public static final int TAMANHO_LITERAL = 255;
-    public final Token Identificador = new Token(25, "identificador");
-    public final Token Inteiro = new Token(26, "inteiro");
-    public final Token Literal = new Token(48, "literal");
-	
+	public final Token Identificador = new Token(25, "identificador");
+	public final Token Inteiro = new Token(26, "inteiro");
+	public final Token Literal = new Token(48, "literal");
+
 	private HashMap<String, Token> token = new HashMap<>();
 	{
 		token.put("program", new Token(1, "program"));
@@ -52,7 +58,7 @@ public class Tokens {
 		token.put("[", new Token(34, "["));
 		token.put("]", new Token(35, "]"));
 		token.put("(", new Token(36, "("));
-		token.put(")", new Token(37, ")"));		
+		token.put(")", new Token(37, ")"));
 		token.put(":=", new Token(38, ":="));
 		token.put(":", new Token(39, ":"));
 		token.put("=", new Token(40, "="));
@@ -60,48 +66,48 @@ public class Tokens {
 		token.put(">=", new Token(42, ">="));
 		token.put("<", new Token(43, "<"));
 		token.put("<=", new Token(44, "<="));
-		token.put("<>", new Token(45, "<>"));		
+		token.put("<>", new Token(45, "<>"));
 		token.put(",", new Token(46, ","));
 		token.put(";", new Token(47, ";"));
 		token.put("literal", new Token(48, "literal"));
 		token.put(".", new Token(49, "."));
 		token.put("..", new Token(50, ".."));
-		
-		token.put("programa", new Token(52, "programa"));   			
-		token.put("bloco", new Token(53, "bloco"));   				
-		token.put("dclrot", new Token(54, "dclrot"));   				
-		token.put("lid", new Token(55, "lid"));   					
-		token.put("repident", new Token(56, "repident"));   			
-		token.put("dclconst", new Token(57, "dclconst"));   			
-		token.put("ldconst", new Token(58, "ldconst"));   				
-		token.put("dclvar", new Token(59, "dclvar"));   				
-		token.put("ldvar", new Token(60, "ldvar"));   	
-		token.put("tipo", new Token(61, "tipo"));   		
-		token.put("dclproc", new Token(62, "dclproc"));   			
-		token.put("defpar", new Token(63, "defpar"));   		
-		token.put("corpo", new Token(64, "corpo"));   		
-		token.put("repcomando", new Token(65, "repcomando"));   	
-		token.put("comando", new Token(66, "comando"));   		
-		token.put("rcomid", new Token(67, "rcomid"));   		
-		token.put("rvar", new Token(68, "rvar"));   		
-		token.put("parametros", new Token(69, "parametros"));   
-		token.put("reppar", new Token(70, "reppar"));   		
-		token.put("elseparte", new Token(71, "elseparte"));   		
-		token.put("variavel", new Token(72, "variavel"));   	
-		token.put("variavel1", new Token(73, "variavel1"));   	
-		token.put("repvariavel", new Token(74, "repvariavel"));   	
-		token.put("itemsaida", new Token(75, "itemsaida"));   	
-		token.put("repitem", new Token(76, "repitem"));   		
-		token.put("expressao", new Token(77, "expressao"));   	
-		token.put("repexpsimp", new Token(78, "repexpsimp"));   	
-		token.put("expsimp", new Token(79, "expsimp"));  	
-		token.put("repexp", new Token(80, "repexp"));  	
-		token.put("termo", new Token(81, "termo"));  
-		token.put("reptermo", new Token(82, "reptermo"));  
-		token.put("fator", new Token(83, "fator"));  
-		token.put("condcase", new Token(84, "condcase"));  
-		token.put("contcase", new Token(85, "contcase"));  
-		token.put("rpinteiro", new Token(86, "rpinteiro"));  
+
+		token.put("programa", new Token(52, "programa"));
+		token.put("bloco", new Token(53, "bloco"));
+		token.put("dclrot", new Token(54, "dclrot"));
+		token.put("lid", new Token(55, "lid"));
+		token.put("repident", new Token(56, "repident"));
+		token.put("dclconst", new Token(57, "dclconst"));
+		token.put("ldconst", new Token(58, "ldconst"));
+		token.put("dclvar", new Token(59, "dclvar"));
+		token.put("ldvar", new Token(60, "ldvar"));
+		token.put("tipo", new Token(61, "tipo"));
+		token.put("dclproc", new Token(62, "dclproc"));
+		token.put("defpar", new Token(63, "defpar"));
+		token.put("corpo", new Token(64, "corpo"));
+		token.put("repcomando", new Token(65, "repcomando"));
+		token.put("comando", new Token(66, "comando"));
+		token.put("rcomid", new Token(67, "rcomid"));
+		token.put("rvar", new Token(68, "rvar"));
+		token.put("parametros", new Token(69, "parametros"));
+		token.put("reppar", new Token(70, "reppar"));
+		token.put("elseparte", new Token(71, "elseparte"));
+		token.put("variavel", new Token(72, "variavel"));
+		token.put("variavel1", new Token(73, "variavel1"));
+		token.put("repvariavel", new Token(74, "repvariavel"));
+		token.put("itemsaida", new Token(75, "itemsaida"));
+		token.put("repitem", new Token(76, "repitem"));
+		token.put("expressao", new Token(77, "expressao"));
+		token.put("repexpsimp", new Token(78, "repexpsimp"));
+		token.put("expsimp", new Token(79, "expsimp"));
+		token.put("repexp", new Token(80, "repexp"));
+		token.put("termo", new Token(81, "termo"));
+		token.put("reptermo", new Token(82, "reptermo"));
+		token.put("fator", new Token(83, "fator"));
+		token.put("condcase", new Token(84, "condcase"));
+		token.put("contcase", new Token(85, "contcase"));
+		token.put("rpinteiro", new Token(86, "rpinteiro"));
 		token.put("sem efeito", new Token(87, "sem efeito"));
 	}
 
