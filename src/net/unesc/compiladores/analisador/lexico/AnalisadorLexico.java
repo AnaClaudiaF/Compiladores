@@ -2,6 +2,7 @@ package net.unesc.compiladores.analisador.lexico;
 
 import static net.unesc.compiladores.analisador.Tokens.FIM_COMENTARIO;
 import static net.unesc.compiladores.analisador.Tokens.FIM_LITERAL;
+import static net.unesc.compiladores.analisador.Tokens.FIM_LITERAL2;
 import static net.unesc.compiladores.analisador.Tokens.INICIO_COMENTARIO;
 import static net.unesc.compiladores.analisador.Tokens.INICIO_LITERAL;
 import static net.unesc.compiladores.analisador.Tokens.TAMANHO_LITERAL;
@@ -33,20 +34,22 @@ public class AnalisadorLexico extends BaseAnalisador {
 		StringBuilder buffer = new StringBuilder();
 		Token token = null;
 		Node node;
-		
-		//Percorrendo a lista de nodes
+
+		// Percorrendo a lista de nodes
 		c: while (!source.isEmpty()) {
-			//Armazena o primeiro node e ser lida na variavel node e o remove do topo da lista, para não ler sempre o mesmo node.
+			// Armazena o primeiro node e ser lida na variavel node e o remove do topo da
+			// lista, para não ler sempre o mesmo node.
 			node = source.pop();
-			
-			//Verifica se o node percorrido é numero, ou se é alfanumero ou se é igual ao "."(ultimo caracter do codigo) ou e o primeiro caracter
+
+			// Verifica se o node percorrido é numero, ou se é alfanumero ou se é igual ao
+			// "."(ultimo caracter do codigo) ou e o primeiro caracter
 			if (node.isNumerico() || node.isAlfanumerico()
 					|| (node.getCharacter().equals(".") && source.peek().isNumerico())) {
 				buffer.append(node.getCharacter());
 				continue;
 			}
-			
-			//Verifica se o buffer está vazio
+
+			// Verifica se o buffer está vazio
 			if (!buffer.toString().isEmpty()) {
 				token = tokens.getCodigoToken(buffer.toString().toLowerCase());
 
@@ -60,11 +63,12 @@ public class AnalisadorLexico extends BaseAnalisador {
 							addErro(new Erro("Valor numérico (" + buffer.toString() + ") informado no formato errado",
 									node.getLinha()));
 						} else {
-							//Testar com a ANA, coloquei um try catch
+							// Testar com a ANA, coloquei um try catch
 							try {
 								Integer inteiro = new Integer(buffer.toString());
 								if (inteiro >= -32767 && inteiro <= 32767) {
-									saida.add(new Token(tokens.Inteiro.getCodigo(), buffer.toString(), node.getLinha()));
+									saida.add(
+											new Token(tokens.Inteiro.getCodigo(), buffer.toString(), node.getLinha()));
 									buffer.delete(0, buffer.length());
 								} else {
 									addErro(new Erro(
@@ -82,20 +86,21 @@ public class AnalisadorLexico extends BaseAnalisador {
 
 				buffer.delete(0, buffer.length());
 			}
-			
-			//Verifica se é um simbolo
+
+			// Verifica se é um simbolo
 			if (node.isSimbolo()) {
-				//Adiciona caracter no buffer
+				// Adiciona caracter no buffer
 				buffer.append(node.getCharacter());
-				
-				//Atualiza o node com o primeiro node da lista (Ver com a ANA a LOGICA)
+
+				// Atualiza o node com o primeiro node da lista (Ver com a ANA a LOGICA)
 				node = source.peek();
 				System.out.println(node);
-				
-				//Pega o codigo do token e verifica se é diferente de nulo
+
+				// Pega o codigo do token e verifica se é diferente de nulo
 				if (tokens.getCodigoToken(buffer.toString()) != null) {
-					
-					// Verifica se o codigo do token é igual ao 31 E verifica se é numero (Ver com a ANA a LOGICA)
+
+					// Verifica se o codigo do token é igual ao 31 E verifica se é numero (Ver com a
+					// ANA a LOGICA)
 					if (tokens.getCodigoToken(buffer.toString()).getCodigo() == 31 && node.isNumerico()) {
 						node = source.pop();
 						do {
@@ -131,20 +136,22 @@ public class AnalisadorLexico extends BaseAnalisador {
 						}
 					}
 					System.out.println(buffer);
-					
+
 					if (tokens.getCodigoToken(buffer.toString() + (source.peek().getCharacter())) != null) {
 						node = source.pop();
 						buffer.append(node.getCharacter());
 					}
-					
-					/* Verifica comentarios, verifica o inicio do comentario. 
-					 * Caso ele esteja em a aberto, gera um erro.
+
+					/*
+					 * Verifica comentarios, verifica o inicio do comentario. Caso ele esteja em a
+					 * aberto, gera um erro.
 					 */
 					if ((buffer.toString() + source.peek().getCharacter()).equals(INICIO_COMENTARIO)) {
 						String comentario = "";
-						
-						/* Percorre toda a lista source novamente lendo node a node e os removendo
-						 * Até encontrar o fim do comentario ou gerar o erro de comentario sem fechamento
+
+						/*
+						 * Percorre toda a lista source novamente lendo node a node e os removendo Até
+						 * encontrar o fim do comentario ou gerar o erro de comentario sem fechamento
 						 */
 						do {
 							buffer.delete(0, buffer.length());
@@ -166,17 +173,19 @@ public class AnalisadorLexico extends BaseAnalisador {
 						buffer.delete(0, buffer.length());
 					}
 				}
-				
-				//Verificação dos literais, foi ajustado o fim do literal. Mesma logica do comentario.
+
+				// Verificação dos literais, foi ajustado o fim do literal. Mesma logica do
+				// comentario.
 				if (buffer.toString().equals(INICIO_LITERAL)) {
 					node = source.pop();
 					String literal = "";
 					buffer.delete(0, buffer.length());
+					boolean fechamentoLiteral = false;
 					do {
 						buffer.delete(0, buffer.length());
 
-						// comentário sem fechamento
-						if (literal.equals(INICIO_LITERAL) || source.isEmpty()) {
+						// literal sem fechamento
+						if (source.isEmpty()) {	
 							addErro(new Erro("Literal sem fechamento", node.getLinha()));
 							break c;
 						}
@@ -186,7 +195,12 @@ public class AnalisadorLexico extends BaseAnalisador {
 
 						literal = buffer.toString() + (!source.isEmpty() ? source.peek().getCharacter() : "");
 						System.out.println(literal);
-					} while (!literal.equals(FIM_LITERAL));
+					} while (!literal.matches("'\\)" +"|"+ FIM_LITERAL));
+					
+					if(fechamentoLiteral) {
+						addErro(new Erro("Literal sem fechamento", node.getLinha()));
+						break c;
+					}
 
 					if (buffer.toString().length() <= TAMANHO_LITERAL) {
 						saida.add(new Token(tokens.Inteiro.getCodigo(), buffer.toString(), node.getLinha()));
