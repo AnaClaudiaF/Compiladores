@@ -14,7 +14,8 @@ public class Tokens {
 	public static final String INICIO_COMENTARIO = "(*";
 	public static final String FIM_COMENTARIO = "*)";
 	public static final String INICIO_LITERAL = "'";
-	public static final String FIM_LITERAL = "';";
+	public static final String FIM_LITERAL = "');";
+	public static final String FIM_LITERAL2 = "';";
 	public static final int TAMANHO_LITERAL = 255;
 	public final Token Identificador = new Token(25, "identificador");
 	public final Token Inteiro = new Token(26, "inteiro");
@@ -113,5 +114,16 @@ public class Tokens {
 
 	public Token getCodigoToken(String nome) {
 		return token.get(nome);
+	}
+	
+	public Token getSintatico(int codigo) {
+		
+		for (Token t : token.values()) {
+			if (t.getCodigo() == codigo) {
+				return t;
+			}
+		}
+
+		return null;
 	}
 }
