@@ -9,6 +9,7 @@ import java.util.List;
 import net.unesc.compiladores.analisador.BaseAnalisador;
 import net.unesc.compiladores.analisador.Erro;
 import net.unesc.compiladores.analisador.lexico.util.Token;
+import net.unesc.compiladores.analisador.sintatico.parsing.Parsing;
 import net.unesc.compiladores.analisador.sintatico.parsing.TabelaParsing;
 
 public class Sintatico extends BaseAnalisador {
@@ -16,16 +17,19 @@ public class Sintatico extends BaseAnalisador {
 	private TabelaParsing tabelaParsing;
 	private LinkedList<Token> listToken;
 	private LinkedList<String> listParsing;
+	private LinkedList<Parsing> tokenSaida;
 	private Token token = null;
+	private String saidaParsing = "";
 
 	public Sintatico(LinkedList<Token> listToken) {
 		this.listToken = listToken;
 		this.tabelaParsing = new TabelaParsing();
 		this.listParsing = new LinkedList<String>();
+		this.tokenSaida = new LinkedList<Parsing>();
 	}
 
 	@Override
-	public LinkedList<Token> getAnalise() {
+	public LinkedList<Parsing> getAnalise() {
 		Integer codigoLexico;
 		Integer codigoPilha;
 		Integer linha;
@@ -33,37 +37,39 @@ public class Sintatico extends BaseAnalisador {
 		Derivacao(ParcingRecuperar(52, 1));
 
 		while (!listParsing.isEmpty()) {
-			if (!listToken.isEmpty()) {
-				token = listToken.peek();
-
-				codigoLexico = token.getCodigo();
-				codigoPilha = new Integer(listParsing.peek());
-				linha = token.getLinha();
-
-				if (codigoPilha < 52) {
-					if (codigoPilha.equals(codigoLexico)) {
-						listToken.pop();
-						listParsing.pop();
-					} else {
-						addErro(new Erro("Erro sintático na linha ", linha));
-						break;
-					}
-				} else {
-					System.out.println("Não terminal");
-
-					listParsing.pop();
-
-					Derivacao(ParcingRecuperar(codigoPilha, codigoLexico));
-
-					continue;
-				}
-
-			} else {
+			
+			if (listToken.isEmpty()) {
 				break;
+			}
+
+			token = listToken.peek();
+
+			codigoLexico = token.getCodigo();
+			codigoPilha = new Integer(listParsing.peek());
+			linha = token.getLinha();
+
+			if (codigoPilha < 52) {
+				if (codigoPilha.equals(codigoLexico)) {
+					listToken.pop();
+					listParsing.pop();
+					addSaida();
+				} else {
+					addErro(new Erro("Erro sintático na linha " + linha + " o token esperado era (" + codigoPilha + ") " + getTokens().getSintatico(codigoPilha).getNome()  + " e foi recebido (" + codigoLexico + ") " + getTokens().getSintatico(codigoLexico).getNome() , linha));
+					break;
+				}
+			} else {
+				System.out.println("Não terminal");
+
+				listParsing.pop();
+				addSaida();
+
+				Derivacao(ParcingRecuperar(codigoPilha, codigoLexico));
+
+				continue;
 			}
 		}
 
-		return null;
+		return tokenSaida;
 	}
 
 	private List<String> ParcingRecuperar(int codigo, int linha) {
@@ -117,14 +123,29 @@ public class Sintatico extends BaseAnalisador {
 		 */
 		for (String derivar : derivacao) {
 
-			System.out.println("Derivando os registros do parsing -> " + derivar);
+System.out.println("Derivando os registros do parsing -> " + derivar);
 
 			/*
 			 * Adiciona na primeira posição da lista os dados da tabela de parsing
 			 */
 			listParsing.add(0, derivar);
 		}
+		
+		addSaida();
 
 		return listParsing;
+	}
+
+	private void addSaida() {
+		Token t;
+		for (String s : listParsing) {
+			t = getTokens().getSintatico(Integer.parseInt(s));
+			
+			saidaParsing += t.getCodigo() + " | ";
+		}
+		
+		tokenSaida.add(new Parsing(saidaParsing));
+		
+		saidaParsing = "";
 	}
 }
