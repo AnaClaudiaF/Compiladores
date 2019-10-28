@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -90,6 +92,17 @@ public class TelaCompilador extends JFrame {
 		menuBar.add(btn_abrir);
 
 		JButton btn_salvar = new JButton("Salvar");
+		btn_salvar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					File.Save(txa_entrada_codigo.getText(), txa_entrada_codigo);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		menuBar.add(btn_salvar);
 
 		JButton btn_executar = new JButton("Executar");
