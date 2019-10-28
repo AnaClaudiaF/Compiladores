@@ -25,10 +25,13 @@ import net.unesc.compiladores.analisador.Erro;
 import net.unesc.compiladores.analisador.lexico.AnalisadorLexico;
 import net.unesc.compiladores.analisador.lexico.util.Token;
 import net.unesc.compiladores.analisador.sintatico.Sintatico;
+import net.unesc.compiladores.analisador.sintatico.parsing.Parsing;
+import net.unesc.compiladores.analisador.sintatico.parsing.TabelaParsing;
 import net.unesc.compiladores.grafico.util.TableModel;
 import net.unesc.compiladores.grafico.util.TextLineNumber;
 import net.unesc.compiladores.grafico.util.TextPane;
 import net.unesc.compiladores.util.File;
+import net.unesc.compiladores.util.TableModelParsing;
 
 public class TelaCompilador extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -39,7 +42,7 @@ public class TelaCompilador extends JFrame {
 	private JTable tabela_sintatico;
 	private TableModel model;
 	private JSplitPane splitPane;
-
+	private TableModelParsing modelParsing;
 	/**
 	 * Construtor
 	 */
@@ -48,6 +51,7 @@ public class TelaCompilador extends JFrame {
 		setSize(650, 675);
 
 		model = new TableModel();
+		modelParsing = new TableModelParsing();
 
 		telaGraficaMontar();
 
@@ -68,6 +72,9 @@ public class TelaCompilador extends JFrame {
 				txa_entrada_codigo.setText("");
 				model = new TableModel();
 				tabela_lexico.setModel(model);
+				
+				modelParsing = new TableModelParsing();
+				tabela_sintatico.setModel(modelParsing);
 			}
 		});
 		menuBar.add(btn_novo);
@@ -90,24 +97,34 @@ public class TelaCompilador extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				BaseAnalisador analisador = new AnalisadorLexico(txa_entrada_codigo.getText());
-				LinkedList<Token> analise = analisador.getAnalise();
 				txa_console.setText("");
+				
+				BaseAnalisador analisador = new AnalisadorLexico(txa_entrada_codigo.getText());
+				LinkedList<Token> token = (LinkedList<Token>) analisador.getAnalise();
 				
 				if (!analisador.getErro().isEmpty()) {
 					for (Erro err : analisador.getErro()) {
 						txa_console.append(err.getErro());
+//						txa_console.paintLine(3);
 					}
 //					txa_console.setText(analisador.getErro().toString());
 				}
-				model = new TableModel(analise);
-				tabela_lexico.setModel(model);
-				
-				analisador = new Sintatico(analise);
-				LinkedList<Token> sintatico = analisador.getAnalise();
-				
-				
-				
+					model = new TableModel(token);
+					tabela_lexico.setModel(model);
+					
+					analisador = new Sintatico(token);
+					LinkedList<Parsing> sintatico = (LinkedList<Parsing>) analisador.getAnalise();
+					
+					if (!analisador.getErro().isEmpty()) {
+						for (Erro err : analisador.getErro()) {
+							txa_console.append(err.getErro());
+//							txa_console.paintLine(3);
+						}
+//						txa_console.setText(analisador.getErro().toString());
+					}
+					
+					modelParsing = new TableModelParsing(sintatico);
+					tabela_sintatico.setModel(modelParsing);
 			}
 		});
 		menuBar.add(btn_executar);
