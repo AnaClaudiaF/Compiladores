@@ -1,0 +1,23 @@
+(*TESTE - valido com duas procedures*)
+PROGRAM TESTE_PROC;
+	(*Proc A*)
+	PROCEDURE p_a(idd : INTEGER);
+		VAR 
+		    X, Y, Z : INTEGER;
+	BEGIN
+		X := X * Y;
+	END;
+
+	(*Proc B com os mesmos dados de A*)
+	PROCEDURE p_b(idd : INTEGER);
+		VAR 
+		    X, Y, Z : INTEGER;
+	BEGIN
+		X := Z *Z;
+	END;
+
+
+BEGIN
+	call p_a(10 + 2);
+	call p_b(5);
+END.

@@ -1,0 +1,33 @@
+(*TESTE - Exemplo Válido com procedures*)
+PROGRAM TESTE123;
+	CONST
+		a = -100;
+		b = -200;
+	VAR 
+		 X, Y, Z : INTEGER;
+		array_a : ARRAY[0..20] OF INTEGER;
+		array_b, array_c, array_d : ARRAY[0..1000] OF INTEGER;
+	
+	(*Declaração de procedure, inicia novo bloco*)
+	PROCEDURE p_teste(idd : INTEGER);
+		LABEL
+			label_a, label_b;
+			
+		CONST
+			a = 100;
+			b = 200;
+
+		VAR 
+			X, Y, Z : INTEGER;
+			array_a : ARRAY[0..20] OF INTEGER;
+			array_b : ARRAY[0..1000] OF INTEGER;
+	BEGIN
+		X := a * b;
+
+	END;
+
+BEGIN
+	call p_teste(a);
+	call p_teste(b);
+	call p_teste(X);
+END.

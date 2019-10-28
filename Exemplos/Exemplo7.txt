@@ -1,0 +1,10 @@
+(*TESTE - Exemplo inválido: A varivel 'A' foi declarada em duplicidade*)
+PROGRAM TESTE123;
+	CONST
+		a = -100;
+		b = -200;
+	VAR 
+		 a, Y, Z : INTEGER;
+BEGIN
+	Z := 0;
+END.

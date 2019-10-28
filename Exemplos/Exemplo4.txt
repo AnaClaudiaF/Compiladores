@@ -1,0 +1,13 @@
+(*TESTE - Erro*)
+(*A derivao [66,26] 'COMANDO,INTEIRO' no foi encontrada na tabela de parsing.*)
+PROGRAM TESTE123;
+VAR x, A, B : INTEGER;
+BEGIN
+     REPEAT 5
+     BEGIN 
+	READLN(A,B);
+                        x := A * B;
+     END
+     UNTIL X > 10;
+
+END.

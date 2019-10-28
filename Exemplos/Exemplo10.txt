@@ -1,0 +1,10 @@
+(*TESTE - Exemplo válido: multiplicação*)
+PROGRAM TESTE123;
+	CONST
+		a = -100;
+		b = -200;
+	VAR 
+		 Y, Z : INTEGER;
+BEGIN
+	Z := a * Y + 2;
+END.

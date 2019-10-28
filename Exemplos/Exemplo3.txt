@@ -1,0 +1,14 @@
+(*TESTE - Exemplo iválido. O label_a não é válido para a procedure*)
+PROGRAM TESTEPROC2;
+LABEL label_a;
+const a  = 100;
+VAR X,Y, z : INTEGER;
+PROCEDURE P(y : INTEGER);
+CONST A = 2;
+VAR X,T:INTEGER;
+begin
+end;
+BEGIN
+CALL p(label_a)
+
+END.
