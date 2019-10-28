@@ -18,7 +18,7 @@ public class Automato {
 		String[] linhas = source.split("\n");
 		LinkedList<Node> node = new LinkedList<Node>();
 		char conteudo;
-		int linha = 0;
+		int linha = 1;
 		
 		//Percorre cada linha separadamente
 		for (String line : linhas) {
@@ -40,9 +40,9 @@ public class Automato {
 			}
 
 			linha++;
-
-			node.add(new Node(" ".charAt(0), linha));
 		}
+		
+		node.add(new Node(" ".charAt(0), linha-1));
 
 		return node;
 	}
