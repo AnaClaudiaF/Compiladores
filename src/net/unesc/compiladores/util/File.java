@@ -2,9 +2,18 @@ package net.unesc.compiladores.util;
 
 import java.awt.FileDialog;
 import java.awt.Frame;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTextPane;
 
 public class File {
 	/**
@@ -59,5 +68,45 @@ public class File {
 		}
 
 		return (new String(lh_buffer));
+	}
+
+	public static String Save(String codigo, JTextPane editor) throws IOException {
+		FileOutputStream arq = null;
+		PrintStream ps = null;
+		JFileChooser c = new JFileChooser();
+		String name = "arquivo.lms";
+		String dir = "";
+		String caminho;
+
+		int rVal = c.showSaveDialog(editor);
+
+		if (rVal == JFileChooser.APPROVE_OPTION) {
+			name = c.getSelectedFile().getName();
+			dir = c.getCurrentDirectory().toString();
+		}
+		caminho = dir + "/" + name;
+
+		try {
+
+			java.io.File f = new java.io.File(caminho);
+
+			arq = new FileOutputStream(f);
+
+			try {
+				ps = new PrintStream(arq, true, "UTF-8");
+				ps.println(codigo);
+
+				return caminho;
+
+			} finally {
+				if (ps != null) {
+					ps.close();
+				}
+			}
+		} finally {
+			if (arq != null) {
+				arq.close();
+			}
+		}
 	}
 }
