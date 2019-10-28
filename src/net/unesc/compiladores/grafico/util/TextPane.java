@@ -19,7 +19,6 @@ public class TextPane extends JTextPane {
 	public TextPane() {
 		addStyle();
 		setStyledDocument(doc);
-		this.hilite = new MyHighlighter();
 	}
 
 	private void addStyle() {

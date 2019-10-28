@@ -3,6 +3,12 @@ package net.unesc.compiladores.analisador.sintatico.parsing;
 import java.util.HashMap;
 
 public class TabelaParsing {
+	/* 
+	 * Na tabela está definido a sequencia de token conforme a sua derivação,
+	 * ex: a devivação inicial é a 52|1 que deve ter a sequencia de tokens: 
+	 *   1|25|47...(program(1) identificador(25) ;(47)),
+	 * Esses tokens já foram divididos no analisador lexico.  
+	 */
 	private HashMap<String, String> tabela_parsing = new HashMap<String, String>();
 	{
 		tabela_parsing.put("52|1","1|25|47|53|49");
