@@ -3,6 +3,10 @@ package net.unesc.compiladores.analisador.sintatico.parsing;
 public class Parsing {
 	private Integer codigo;
 	private String descricao;
+	
+	public Parsing(String descricao) {
+		this.descricao = descricao;
+	}
 
 	public Parsing(Integer codigo, String descricao) {
 		this.codigo = codigo;
