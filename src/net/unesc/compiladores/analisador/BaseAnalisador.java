@@ -9,12 +9,14 @@ import net.unesc.compiladores.analisador.lexico.util.Token;
 
 public abstract class BaseAnalisador {
 	private List<Erro> erro;
+	private Tokens tokens;
 
 	public BaseAnalisador() {
 		erro = new ArrayList<Erro>();
+		this.tokens = new Tokens();
 	}
 
-	public abstract LinkedList<Token> getAnalise();
+	public abstract LinkedList<?> getAnalise();
 	
 	public List<Erro> getErro() {
 		return erro;
@@ -33,5 +35,9 @@ public abstract class BaseAnalisador {
 		String decimalPattern = "\\-([0-9]*)\\.([0-9]*)||([0-9]*)\\.([0-9]*)";
 
 		return Pattern.matches(decimalPattern, number);
+	}
+	
+	protected Tokens getTokens() {
+		return tokens;
 	}
 }
