@@ -34,6 +34,7 @@ public class AnalisadorLexico extends BaseAnalisador {
 		StringBuilder buffer = new StringBuilder();
 		Token token = null;
 		Node node;
+		int linha = 0;
 
 		// Percorrendo a lista de nodes
 		c: while (!source.isEmpty()) {
@@ -121,16 +122,22 @@ public class AnalisadorLexico extends BaseAnalisador {
 										"Valor numérico (" + buffer.toString() + ") informado no formato errado",
 										node.getLinha()));
 							} else {
-								Integer inteiro = new Integer(buffer.toString());
-								if (inteiro >= -32767 && inteiro <= 32767) {
-									saida.add(
-											new Token(tokens.Inteiro.getCodigo(), buffer.toString(), node.getLinha()));
-									buffer.delete(0, buffer.length());
-								} else {
+								try {
+									Integer inteiro = new Integer(buffer.toString());
+									if (inteiro >= -32767 && inteiro <= 32767) {
+										saida.add(
+												new Token(tokens.Inteiro.getCodigo(), buffer.toString(), node.getLinha()));
+										buffer.delete(0, buffer.length());
+									} else {
+										addErro(new Erro(
+												"Valor numérico (" + buffer.toString() + ") forma os limites permitidos",
+												node.getLinha()));
+										break;
+									}
+								} catch (Exception e) {
 									addErro(new Erro(
 											"Valor numérico (" + buffer.toString() + ") forma os limites permitidos",
 											node.getLinha()));
-									break;
 								}
 							}
 						}
@@ -226,7 +233,11 @@ public class AnalisadorLexico extends BaseAnalisador {
 
 				buffer.delete(0, buffer.length());
 			}
+			
+			linha = node.getLinha();
 		}
+		
+		saida.add(new Token(51, "$", linha));
 
 		return saida;
 	}
