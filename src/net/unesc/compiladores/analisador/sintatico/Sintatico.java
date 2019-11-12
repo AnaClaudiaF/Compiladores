@@ -9,6 +9,7 @@ import java.util.List;
 import net.unesc.compiladores.analisador.BaseAnalisador;
 import net.unesc.compiladores.analisador.Erro;
 import net.unesc.compiladores.analisador.lexico.util.Token;
+import net.unesc.compiladores.analisador.semantico.Semantico;
 import net.unesc.compiladores.analisador.sintatico.parsing.Parsing;
 import net.unesc.compiladores.analisador.sintatico.parsing.TabelaParsing;
 
@@ -46,12 +47,14 @@ public class Sintatico extends BaseAnalisador {
 	private LinkedList<Parsing> tokenSaida;
 	private Token token = null;
 	private String saidaParsing = "";
+	private Semantico semantico;
 
 	public Sintatico(LinkedList<Token> listToken) {
 		this.listToken = listToken;
 		this.tabelaParsing = new TabelaParsing();
 		this.listParsing = new LinkedList<String>();
 		this.tokenSaida = new LinkedList<Parsing>();
+		this.semantico = new Semantico();
 	}
 
 	@Override
@@ -97,6 +100,9 @@ public class Sintatico extends BaseAnalisador {
 				 * 	Apresenta erro no codigo informado pelo usuario, pois a ordem não confere com a da tabela parsing
 				 */
 				if (codigoPilha.equals(codigoLexico)) {
+					
+					semantico.getAnalise(token);
+					
 					listToken.pop();
 					listParsing.pop();
 					addSaida();
@@ -105,7 +111,7 @@ public class Sintatico extends BaseAnalisador {
 					break;
 				}
 			} else {
-				System.out.println("Não terminal");
+//				System.out.println("Não terminal");
 
 				listParsing.pop();
 				addSaida();
@@ -121,14 +127,14 @@ public class Sintatico extends BaseAnalisador {
 
 	private List<String> ParcingRecuperar(int codigo, int linha) {
 
-		System.out.println(
-				"Iniciando recuperação dos dados da tabela de parcing. Codigo -> " + codigo + " Linha -> " + linha);
+//		System.out.println(
+//				"Iniciando recuperação dos dados da tabela de parcing. Codigo -> " + codigo + " Linha -> " + linha);
 
 		/*
 		 * Recupera os dados da tabela de parsing
 		 */
 		String parcing = tabelaParsing.getParsing(codigo + "|" + linha);
-		System.out.println("Tabela parcing -> " + parcing);
+//		System.out.println("Tabela parcing -> " + parcing);
 
 		List<String> derivacao = null;
 
@@ -137,7 +143,7 @@ public class Sintatico extends BaseAnalisador {
 		 */
 		if (parcing != null && !parcing.isEmpty()) {
 
-			System.out.println("Encontrei algo");
+//			System.out.println("Encontrei algo");
 
 			/*
 			 * Adiciona na lista de derivação quebrando pelo "|"
@@ -169,7 +175,7 @@ public class Sintatico extends BaseAnalisador {
 		 */
 		for (String derivar : derivacao) {
 			
-			System.out.println("Derivando os registros do parsing -> " + derivar);
+//			System.out.println("Derivando os registros do parsing -> " + derivar);
 
 			/*
 			 * Adiciona na primeira posição da lista os dados da tabela de parsing
