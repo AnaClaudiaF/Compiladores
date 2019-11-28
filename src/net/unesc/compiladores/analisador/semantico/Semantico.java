@@ -94,18 +94,18 @@ public class Semantico extends BaseAnalisador {
 	}
 
 	private void isDeclarado(Token token) {
-		System.out.println("Verificando token " + token.getNome() + " da linha " + token.getLinha());
+		//System.out.println("Verificando token " + token.getNome() + " da linha " + token.getLinha());
 		switch (categoria) {
-		case PROGRAM: {// Finaliza porque o nome do programa È obrigado a ser declarado
+		case PROGRAM: {// Finaliza porque o nome do programa √© obrigado a ser declarado
 			break;
 		}
 
-		case PROCEDURE: { // Busca para ver se a procedure foi ou n„o declarada
+		case PROCEDURE: { // Busca para ver se a procedure foi ou n√£o declarada
 
 			// Se procedure declarada
 			if (!buscaProcedure(token)) {
 				Simbolos procedure = new Simbolos(token.getNome(), categoria, "Procedure", nivel);
-				aux.setFilho(simbolo);
+				aux.setFilho(procedure);
 				procedure.setParent(aux);
 				aux = procedure;
 				
@@ -119,11 +119,11 @@ public class Semantico extends BaseAnalisador {
 		}
 
 		case PARAMETER: {
-			// Se n„o tiver nada declarado, adiciona na lista a vari·vel lida
+			// Se n√£o tiver nada declarado, adiciona na lista a vari√°vel lida
 			if (!buscaVariavel(token)) {
-				aux.setVariavel(new Simbolos(categoria, token.getNome(), "Par‚metro"));
+				aux.setVariavel(new Simbolos(categoria, token.getNome(), "Par√¢metro"));
 			} else {
-				// Adiciona o erro sem‚ntico
+				// Adiciona o erro sem√¢ntico
 				System.out.println("Erro semantico na linha " + token.getLinha());
 			}
 
@@ -131,11 +131,11 @@ public class Semantico extends BaseAnalisador {
 		}
 
 		case CONST: {
-			// Se n„o tiver nada declarado, adiciona na lista a vari·vel lida
+			// Se n√£o tiver nada declarado, adiciona na lista a vari√°vel lida
 			if (!buscaVariavel(token)) {
 				aux.setVariavel(new Simbolos(categoria, token.getNome(), "Constante"));
 			} else {
-				// Adiciona o erro sem‚ntico
+				// Adiciona o erro sem√¢ntico
 				System.out.println("Erro semantico na linha " + token.getLinha());
 			}
 
@@ -143,11 +143,11 @@ public class Semantico extends BaseAnalisador {
 		}
 
 		case LABEL: {
-			// Se n„o tiver nada declarado, adiciona na lista a vari·vel lida
+			// Se n√£o tiver nada declarado, adiciona na lista a vari√°vel lida
 			if (!buscaVariavel(token)) {
 				aux.setVariavel(new Simbolos(categoria, token.getNome(), "Label"));
 			} else {
-				// Adiciona o erro sem‚ntico
+				// Adiciona o erro sem√¢ntico
 				System.out.println("Erro semantico na linha " + token.getLinha());
 			}
 
@@ -156,18 +156,18 @@ public class Semantico extends BaseAnalisador {
 
 		case VAR: {
 
-			// Se n„o tiver nada declarado, adiciona na lista a vari·vel lida
+			// Se n√£o tiver nada declarado, adiciona na lista a vari√°vel lida
 			if (!buscaVariavel(token)) {
-				aux.setVariavel(new Simbolos(categoria, token.getNome(), "Vari·vel"));
+				aux.setVariavel(new Simbolos(categoria, token.getNome(), "Vari√°vel"));
 			} else {
-				// Adiciona o erro sem‚ntico
+				// Adiciona o erro sem√¢ntico
 				System.out.println("Erro semantico na linha " + token.getLinha());
 			}
 
 			break;
 		}
 
-		default: { // Erro sem‚ntico de vari·vel n„o declarada
+		default: { // Erro sem√¢ntico de vari√°vel n√£o declarada
 			break;
 		}
 		}
@@ -194,54 +194,16 @@ public class Semantico extends BaseAnalisador {
 		}
 
 		for (Simbolos procedure : aux.getFilhos()) {
-			if (procedure.getNome().equalsIgnoreCase(token.getNome()) && procedure.getTipo().equals("Procedure")) {
+			if (procedure.getNome() != null && procedure.getNome().equalsIgnoreCase(token.getNome()) && procedure.getTipo().equals("Procedure")) {
 				return true;
 			}
 		}
 
 		return false;
-	}
-
-	private boolean busca(Simbolos simbolo) {
-		for (Simbolos s : this.tabelaSimbolo) {
-			if (s.getNome().equalsIgnoreCase(simbolo.getNome())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean insercao(Simbolos simbolo) {
-		if (busca(simbolo)) {
-			return false;
-		}
-
-		return tabelaSimbolo.add(simbolo);
-	}
-
-	private String retornaTipo(int aCodigo) {
-		switch (aCodigo) {
-		case 37:
-			return INT;
-		case 39:
-			return LITERAL;
-		case 40:
-			return IDENTIFICADOR;
-		}
-		return null;
-	}
-
-	private void incrementaNivel() {
-		nivel++;
-	}
-
-	private void decrementaNivel() {
-		nivel--;
 	}
 
 	@Override
 	public LinkedList<?> getAnalise() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
