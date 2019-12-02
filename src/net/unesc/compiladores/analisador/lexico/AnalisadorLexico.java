@@ -110,6 +110,10 @@ public class AnalisadorLexico extends BaseAnalisador {
 								node = source.pop();
 							}
 							buffer.append(node.getCharacter());
+							
+							if (source.peek().getCharacter().equals(";")) {
+								break;
+							}
 							node = source.pop();
 						} while (node.isNumerico());
 
