@@ -103,6 +103,10 @@ public class Sintatico extends BaseAnalisador {
 					
 					semantico.getAnalise(token);
 					
+					if (semantico.getErro() != null && !semantico.getErro().isEmpty()) {
+						break;
+					}
+					
 					listToken.pop();
 					listParsing.pop();
 					addSaida();
@@ -200,5 +204,10 @@ public class Sintatico extends BaseAnalisador {
 		tokenSaida.add(new Parsing(saidaParsing));
 		
 		saidaParsing = "";
+	}
+	
+	@Override
+	public Semantico getSemantico() {
+		return semantico;
 	}
 }

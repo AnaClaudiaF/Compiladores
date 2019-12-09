@@ -34,6 +34,7 @@ import net.unesc.compiladores.grafico.util.TextLineNumber;
 import net.unesc.compiladores.grafico.util.TextPane;
 import net.unesc.compiladores.util.File;
 import net.unesc.compiladores.util.TableModelParsing;
+import net.unesc.compiladores.util.TableModelSemantico;
 
 public class TelaCompilador extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -42,9 +43,11 @@ public class TelaCompilador extends JFrame {
 	private JTextArea txa_console;
 	private JTable tabela_lexico;
 	private JTable tabela_sintatico;
+	private JTable tabela_semantico;
 	private TableModel model;
 	private JSplitPane splitPane;
 	private TableModelParsing modelParsing;
+	private TableModelSemantico modelSemantico;
 	/**
 	 * Construtor
 	 */
@@ -54,6 +57,7 @@ public class TelaCompilador extends JFrame {
 
 		model = new TableModel();
 		modelParsing = new TableModelParsing();
+		modelSemantico = new TableModelSemantico();
 
 		telaGraficaMontar();
 
@@ -77,6 +81,10 @@ public class TelaCompilador extends JFrame {
 				
 				modelParsing = new TableModelParsing();
 				tabela_sintatico.setModel(modelParsing);
+				
+				modelSemantico = new TableModelSemantico();
+				tabela_semantico.setModel(modelSemantico);
+				
 			}
 		});
 		menuBar.add(btn_novo);
@@ -138,6 +146,16 @@ public class TelaCompilador extends JFrame {
 					
 					modelParsing = new TableModelParsing(sintatico);
 					tabela_sintatico.setModel(modelParsing);
+					
+					if (analisador.getSemantico() != null && analisador.getSemantico().getErro() != null && !analisador.getSemantico().getErro().isEmpty()) {
+						for (Erro err : analisador.getSemantico().getErro()) {
+							txa_console.append(err.getErro());
+//							txa_console.paintLine(3);
+						}
+					}
+					
+					modelSemantico = new TableModelSemantico(analisador.getSemantico().getTabelaSimbolo());
+					tabela_semantico.setModel(modelSemantico);
 			}
 		});
 		menuBar.add(btn_executar);
@@ -209,6 +227,17 @@ public class TelaCompilador extends JFrame {
 		tabela_sintatico = new JTable();
 //		tabela_sintatico.setModel(null);
 		scrollPane_3.setViewportView(tabela_sintatico);
+		
+		JPanel panel_8 = new JPanel();
+		tabbedPane.addTab("Semantico", null, panel_8, null);
+		panel_8.setLayout(new GridLayout(1, 0, 0, 0));
+
+		JScrollPane scrollPane_4 = new JScrollPane();
+		panel_8.add(scrollPane_4);
+
+		tabela_semantico = new JTable();
+//		tabela_sintatico.setModel(null);
+		scrollPane_4.setViewportView(tabela_semantico);
 
 		JPanel panel_5 = new JPanel();
 		splitPane_1.setRightComponent(panel_5);

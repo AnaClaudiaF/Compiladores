@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import net.unesc.compiladores.analisador.lexico.util.Token;
+import net.unesc.compiladores.analisador.semantico.Semantico;
 
 public abstract class BaseAnalisador {
 	private List<Erro> erro;
@@ -39,5 +40,9 @@ public abstract class BaseAnalisador {
 	
 	protected Tokens getTokens() {
 		return tokens;
+	}
+	
+	public Semantico getSemantico() {
+		return null;
 	}
 }
